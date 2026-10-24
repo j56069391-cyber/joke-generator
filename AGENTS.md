@@ -17,5 +17,9 @@ filtering, localStorage favorites, and share (Web Share API / clipboard).
   requires no credentials. `.base44/environment.json` records an empty secrets list.
 - Favorites are stored in the browser's localStorage under
   `joke-generator-favorites` (plain JSON array of joke objects).
-- Vite dev server has no host allowlist to extend (Vite 5 doesn't check Host
-  headers); it binds 0.0.0.0 with `strictPort` on 5173.
+- Vite 5.4.21 DOES enforce a Host allowlist (backported security patch): the
+  preview proxy sends `Host: <port>-<sandbox id>.<BASE44_SANDBOX_HOST_DOMAIN>`,
+  so `vite.config.js` adds `allowedHosts: ['.<sandbox host domain>']` only when
+  `BASE44_PREVIEW_MODE === '1'`; `BASE44_SANDBOX_HOST_DOMAIN` is passed through
+  the compose `environment:`. Without the flag the default strict behavior stays.
+  It binds 0.0.0.0 with `strictPort` on 5173.
